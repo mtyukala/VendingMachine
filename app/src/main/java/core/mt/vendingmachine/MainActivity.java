@@ -5,9 +5,11 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.Selection;
 import android.util.Log;
 import android.view.View;
 import android.view.Menu;
@@ -45,18 +47,13 @@ public class MainActivity extends AppCompatActivity {
 
         productsList = new ArrayList<>();
         productAdapter = new ProductAdapter();
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        LinearLayoutManager layout = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layout);
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
+                layout.getOrientation());
+        recyclerView.addItemDecoration(dividerItemDecoration);
+
         recyclerView.setAdapter(productAdapter);
-
-        if (productsList.isEmpty()) {
-            recyclerView.setVisibility(View.GONE);
-            emptyView.setVisibility(View.VISIBLE);
-        } else {
-            recyclerView.setVisibility(View.VISIBLE);
-            recyclerView.setAdapter(productAdapter);
-            emptyView.setVisibility(View.GONE);
-        }
-
 
 
         Runnable viewProducts = new Runnable() {
@@ -65,11 +62,25 @@ public class MainActivity extends AppCompatActivity {
                 getProducts();
             }
         };
-
         Thread thread = new Thread(null, viewProducts, "MagentoBackground");
         thread.start();
+
         progressDialog = ProgressDialog.show(MainActivity.this,
                 "Please wait...", "Retrieving data ...", true);
+
+        if (productsList.isEmpty()) {
+            recyclerView.setVisibility(View.GONE);
+            emptyView.setVisibility(View.VISIBLE);
+        } else {
+            recyclerView.setVisibility(View.VISIBLE);
+            recyclerView.setAdapter(productAdapter);
+            recyclerView.setHasFixedSize(true);
+
+//            SelectionTraker tracker = new SelectionTracker()
+
+            emptyView.setVisibility(View.GONE);
+        }
+
     }
 
 
@@ -99,27 +110,31 @@ public class MainActivity extends AppCompatActivity {
     public void getProducts() {
         try {
             productsList = new ArrayList<>();
-            //Order o1 = new Order();
+
             Product product = new Product();
-            product.setName("SF services");
+            product.setName("Coke");
             product.setPrice(9.99f);
-            Product o2 = new Product();
-            o2.setName("SF Advertisement");
-            o2.setPrice(8.99f);
             productsList.add(product);
-            productsList.add(o2);
+
+            product = new Product();
+            product.setName("Simba Chips");
+            product.setPrice(8.99f);
+
+            productsList.add(product);
+
             Thread.sleep(5000);
             Log.i("Product Size = ", "" + productsList.size());
         } catch (Exception e) {
             Log.e("Background Process", e.getMessage());
         }
-        runOnUiThread(returnRes);
+        runOnUiThread(prepareProducts);
     }
 
-    private Runnable returnRes = new Runnable() {
+    private Runnable prepareProducts = new Runnable() {
 
         @Override
         public void run() {
+            Log.i("Product Size in Pp = ", "" + productsList.size());
             if (productsList != null && productsList.size() > 0) {
                 productAdapter.notifyDataSetChanged();
                 productAdapter.setData(productsList);
