@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">VendingMachine</string>
+    <string name="action_settings">Settings</string>
+    <string name="main_no_items">No Products in the Vending Machine</string>
+</resources>
