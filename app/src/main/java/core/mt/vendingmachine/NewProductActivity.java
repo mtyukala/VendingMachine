@@ -53,7 +53,7 @@ public class NewProductActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // product = new Product(name, price, weight, items, "");
+               
                 json = new JSONObject();
                 //"{"+"name:"+name+"price:"+price+"items"             "}"
                 try {
