@@ -1,5 +1,6 @@
 package core.mt.vendingmachine;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -53,7 +54,7 @@ public class NewProductActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               
+
                 json = new JSONObject();
                 //"{"+"name:"+name+"price:"+price+"items"             "}"
                 try {
@@ -93,6 +94,11 @@ public class NewProductActivity extends AppCompatActivity {
             os.flush();
         }
 
+        int code = connection.getResponseCode();
+        if (code == 200) {
+            Snackbar.make(findViewById(R.id.product_parent), "New Product Saved Successfully", Snackbar.LENGTH_LONG)
+                    .show();
+        }
         try (BufferedReader reader = new BufferedReader(
                 new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8)
         )) {
@@ -101,9 +107,9 @@ public class NewProductActivity extends AppCompatActivity {
             while ((line = reader.readLine()) != null) {
                 response.append(line.trim());
             }
-        }
 
-        connection.connect();
+        }
+        // TODO connection.connect();
 
         progressDialog.dismiss();
     }
