@@ -11,8 +11,13 @@ public class Product extends Model {
      *
      */
     private static final long serialVersionUID = 1L;
+<<<<<<< HEAD
     private Long id = 0L;
     private String name;
+=======
+        private Long id;
+        private String name;
+>>>>>>> 58aee1e6d3a43d231862b5a2e9ce6635b78cf036
 
     private float price;
     private float weight;
@@ -27,10 +32,18 @@ public class Product extends Model {
         pictureURL = "";
     }
 
+<<<<<<< HEAD
     public Product(
             String name,
             float price, float weight, int items, String pictureURL) {
         super();
+=======
+    public Product(Long id,
+                   String name,
+                   float price, float weight, int items, String pictureURL) {
+        super();
+        this.id = id;
+>>>>>>> 58aee1e6d3a43d231862b5a2e9ce6635b78cf036
         this.name = name;
         this.price = price;
         this.weight = weight;

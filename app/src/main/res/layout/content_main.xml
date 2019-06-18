@@ -14,6 +14,7 @@
         android:layout_height="match_parent"
         tools:listitem="@layout/single_row" />
 
+<<<<<<< HEAD
     <ProgressBar
         android:id="@+id/progressBar"
         android:layout_width="wrap_content"
@@ -23,6 +24,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+=======
+>>>>>>> 58aee1e6d3a43d231862b5a2e9ce6635b78cf036
     <TextView
         android:id="@+id/empty_view"
         android:layout_width="match_parent"

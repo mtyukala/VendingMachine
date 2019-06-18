@@ -2,10 +2,13 @@
     <string name="app_name">VendingMachine</string>
     <string name="action_settings">Settings</string>
     <string name="main_no_items">No Products in the Vending Machine</string>
+<<<<<<< HEAD
     <string name="description_of_item">Description of Item</string>
     <string name="price_of_item">Price of Item</string>
     <string name="size_of_item">Size of Item</string>
     <string name="initial_number_of_items">Total</string>
     <string name="title_activity_new_product">NewProductActivity</string>
     <string name="product_save_message">New Product Saved Successfully</string>
+=======
+>>>>>>> 58aee1e6d3a43d231862b5a2e9ce6635b78cf036
 </resources>
