@@ -27,7 +27,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
+
 
 public class NewProductActivity extends AppCompatActivity {
     private static final String BASE_URL = "TODO";
@@ -94,23 +94,20 @@ public class NewProductActivity extends AppCompatActivity {
             os.flush();
         }
 
-        int code = connection.getResponseCode();
-        if (code == 200) {
-            Snackbar.make(findViewById(R.id.product_parent), "New Product Saved Successfully", Snackbar.LENGTH_LONG)
-                    .show();
-        }
         try (BufferedReader reader = new BufferedReader(
-                new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8)
-        )) {
+                new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8))) {
             StringBuilder response = new StringBuilder();
             String line;
             while ((line = reader.readLine()) != null) {
                 response.append(line.trim());
             }
+            progressDialog.dismiss();
 
+            int code = connection.getResponseCode();
+            if (code == 200) {
+                Snackbar.make(findViewById(R.id.product_parent), "New Product Saved Successfully", Snackbar.LENGTH_LONG)
+                        .show();
+            }
         }
-        // TODO connection.connect();
-
-        progressDialog.dismiss();
     }
 }
