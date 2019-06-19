@@ -15,6 +15,7 @@
         tools:listitem="@layout/single_row" />
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     <ProgressBar
         android:id="@+id/progressBar"
         android:layout_width="wrap_content"
@@ -26,11 +27,13 @@
 
 =======
 >>>>>>> 58aee1e6d3a43d231862b5a2e9ce6635b78cf036
+=======
+>>>>>>> vending
     <TextView
         android:id="@+id/empty_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
         android:visibility="gone"
-        android:text="@string/main_no_items"/>
+        android:text="@string/main_no_items" />
 </android.support.constraint.ConstraintLayout>
