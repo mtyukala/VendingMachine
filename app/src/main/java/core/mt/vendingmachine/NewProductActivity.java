@@ -1,37 +1,29 @@
 package core.mt.vendingmachine;
 
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-
-import com.vending.machine.model.Product;
+import android.widget.EditText;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
 
 public class NewProductActivity extends AppCompatActivity {
     private static final String BASE_URL = "TODO";
-    // private Product product;
     private JSONObject json;
 
     @Override
@@ -39,25 +31,49 @@ public class NewProductActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.new_product);
 
+        Toolbar toolbar = findViewById(R.id.product_toolbar);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
 
+        setSupportActionBar(toolbar);
+
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle("Add New Product");
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
         createProduct();
+    }
 
+    @Override
+    public boolean onSupportNavigateUp() {
+        return super.onSupportNavigateUp();
     }
 
     private void createProduct() {
-        final String name = findViewById(R.id.nameEdit).toString();
-        final float price = Float.valueOf(findViewById(R.id.priceText).toString());
-        final int items = Integer.valueOf(findViewById(R.id.countEdit).toString());
-        final float weight = Float.valueOf(findViewById(R.id.weightEdit).toString());
 
         Button button = findViewById(R.id.saveBtn);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                json = new JSONObject();
-                //"{"+"name:"+name+"price:"+price+"items"             "}"
+                final EditText nameEdit = findViewById(R.id.nameEdit);
+                final EditText priceEdit = findViewById(R.id.priceEdit);
+                final EditText itemsEdit = findViewById(R.id.countEdit);
+                final EditText weightEdit = findViewById(R.id.weightEdit);
+
+                final String name = nameEdit.getText().toString();
+                final float price = Float.valueOf(priceEdit.getText().toString());
+                final int items = Integer.valueOf(itemsEdit.getText().toString());
+                final float weight = Float.valueOf(weightEdit.getText().toString());
+
                 try {
+                    json = new JSONObject();
+
                     json.put("name", name);
                     json.put("price", price);
                     json.put("items", items);
@@ -77,12 +93,12 @@ public class NewProductActivity extends AppCompatActivity {
     }
 
     void save() throws IOException {
-
         ProgressDialog progressDialog = ProgressDialog.show(NewProductActivity.this,
                 "Please wait...", "Saving New Product ...", true);
 
         String location = BASE_URL + "/api/products";
         URL url = new URL(location);
+
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("POST");
         connection.setRequestProperty("Content-Type", "application/json; utf-8");
@@ -101,6 +117,9 @@ public class NewProductActivity extends AppCompatActivity {
             while ((line = reader.readLine()) != null) {
                 response.append(line.trim());
             }
+
+            Log.i("Product Save = ", response.toString());
+
             progressDialog.dismiss();
 
             int code = connection.getResponseCode();
